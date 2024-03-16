@@ -13,6 +13,7 @@ import {GluestackUIProvider, Box, Text, Image} from '@gluestack-ui/themed';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {Navigation} from './Navigation';
+import {ZoomVideoSdkProvider} from '@zoom/react-native-videosdk';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -35,7 +36,13 @@ function App(): JSX.Element {
           }}
           height="100%">
           <NavigationContainer>
-            <Navigation />
+            <ZoomVideoSdkProvider
+              config={{
+                domain: 'zoom.us',
+                enableLog: true,
+              }}>
+              <Navigation />
+            </ZoomVideoSdkProvider>
           </NavigationContainer>
         </Box>
       </GluestackUIProvider>
