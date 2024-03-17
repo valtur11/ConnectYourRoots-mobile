@@ -16,15 +16,15 @@ import {Navigation} from './Navigation';
 import {ZoomVideoSdkProvider} from '@zoom/react-native-videosdk';
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
+  const isDarkMode = false;//useColorScheme() === 'dark';
+console.log(isDarkMode)
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    // height: '100%',
+    height: '100%',
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={{height: '100%', backgroundColor: 'white'}}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
