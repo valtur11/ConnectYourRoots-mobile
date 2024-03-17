@@ -131,8 +131,8 @@ type DashboardScreenProps = {
       <HStack marginTop={30} justifyContent="center" space="sm" reversed={false} >
       
       <Box borderRadius="$md" bg="#016FB9" justifyContent='center' alignItems="center" height={200} width={200}><Text color="white" fontSize={20}>Текстови съобщения </Text><Icon name="commenting-o" size={80} color="white" /></Box>
-      <Box borderRadius="$md" bg="#016FB9" justifyContent='center' alignItems="center" height={200} width={200}><Text color="white" fontSize={20}>Настройки </Text><Icon name="gears" size={80} color="white" /></Box>
-      </HStack>
+      <TouchableOpacity onPress={() => setTimeout(() => navigation.navigate('VideoCallDialing'), 5000)} ><Box borderRadius="$md" bg="#016FB9" justifyContent='center' alignItems="center" height={200} width={200}><Text color="white" fontSize={20}>Настройки </Text><Icon name="gears" size={80} color="white" /></Box>
+      </TouchableOpacity></HStack>
       
         </ScrollView>
       </Box>

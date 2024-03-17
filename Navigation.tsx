@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen } from './screens/HomeScreen';
 import { VideoChatDashboardScreen } from './screens/VideoChatDashboardScreen';
 import { VideoChatScreen } from './screens/VideoChatScreen';
+import { VideoCallDialingScreen } from './screens/VideoCallDialingScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,10 @@ export function Navigation() {
        <Stack.Screen
       name="VideoCall"
       component ={VideoChatScreen}
+      />
+         <Stack.Screen
+      name="VideoCallDialing"
+      component ={VideoCallDialingScreen}
       />
     </Stack.Navigator>
   );
