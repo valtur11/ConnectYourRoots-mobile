@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, StyleSheet, Text, Modal, Alert } from 'react-native';
-import { TextInputRow } from '../../components/text-input-row';
+import React from 'react';
+import { TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { VStack, Box, Text } from '@gluestack-ui/themed';
 
-const DEFAULT_SESSION_NAMES = [
+const DEFAULT_SESSION_NAMES: string[] = [
   'grand-canyon',
   'yosemite',
   'yellowstone',
@@ -15,120 +16,48 @@ const DEFAULT_SESSION_NAMES = [
   'lake-tahoe',
 ];
 
+type Contact = {
+  sessionName: string;
+  displayName: string;
+  roleType: number;
+  contactName: string;
+};
+
 type VideoChatScreenProps = {
   route: any;
   navigation: any;
 };
 
-export default function JoinScreen({ route, navigation }: VideoChatScreenProps) {
-  const [sessionName, setSessionName] = useState('');
-  const [sessionPassword, setSessionPassword] = useState('');
-  const [displayName, setDisplayName] = useState('');
-  const [sessionIdleTimeoutMins, setSessionIdleTimeoutMins] = useState('40');
-  const [roleType, setRoleType] = useState('');
-  
+const contacts: Contact[] = [
+  { sessionName: "rdadj", displayName: "Контакт 5", roleType: 1, contactName: "Контакт 1" },
+  { sessionName: "rdadj1", displayName: "Контакт 6", roleType: 0, contactName: "Контакт 2" },
+  { sessionName: "rdadj2", displayName: "Контакт 7", roleType: 1, contactName: "Контакт 3" },
+  { sessionName: "rdadj", displayName: "Контакт 8", roleType: 0, contactName: "Контакт 4" }
+];
 
-  const isJoin = route?.params?.isJoin;
+export default function JoinScreen({ route, navigation }: VideoChatScreenProps): JSX.Element {
+  const isJoin: boolean = route?.params?.isJoin;
 
-  useEffect(() => {
-    navigation.setOptions({
-      title: !isJoin ? 'Create a Session' : 'Join a Session',
+  const checkTextInput = (contact: Contact): void => {
+    const sessionIdleTimeoutMins: number = 30;
+    navigation.navigate('VideoCall', {
+      sessionName: contact.sessionName,
+      displayName: contact.displayName,
+      roleType: contact.roleType,
+      sessionIdleTimeoutMins
     });
-    if (!isJoin) {
-      const defaultSessionName =
-        DEFAULT_SESSION_NAMES[
-          Math.floor(Math.random() * DEFAULT_SESSION_NAMES.length)
-        ] +
-        '-' +
-        Math.floor(Math.random() * 1000);
-      setSessionName(defaultSessionName.trim());
-    }
-  }, [navigation, isJoin]);
-
-  const checkTextInput = () => {
-      if (!sessionName.trim()) {
-          Alert.alert('Please Enter Session Name');
-          return;
-      };
-      if (!displayName.trim()) {
-          Alert.alert('Please Enter Display Name');
-          return;
-      };
-      if (!roleType.trim()) {
-          Alert.alert('Please Enter Role Type');
-          return;
-      };
-      navigation.navigate('VideoCall', {
-          sessionName,
-          displayName,
-          sessionPassword,
-          roleType,
-          sessionIdleTimeoutMins,
-      })
-  }
+  };
 
   return (
-    <View style={styles.container}>
-      <TextInputRow
-        label="Session Name"
-        placeholder="Required"
-        keyboardType="default"
-        value={sessionName}
-        onChangeText={setSessionName}
-      />
-      <TextInputRow
-        label="Display Name"
-        placeholder="Required"
-        keyboardType="default"
-        value={displayName}
-        onChangeText={setDisplayName}
-      />
-      <TextInputRow
-        label="Password"
-        placeholder="Optional"
-        keyboardType="default"
-        value={sessionPassword}
-        onChangeText={setSessionPassword}
-        secureTextEntry
-      />
-      <TextInputRow
-        label="SessionIdleTimeoutMins"
-        placeholder="Optional"
-        keyboardType="default"
-        value={sessionIdleTimeoutMins}
-        onChangeText={setSessionIdleTimeoutMins}
-      />
-      <TextInputRow
-        label="Role Type"
-        keyboardType="numeric"
-        placeholder="Required (1 for Host, 0 for attendee)"
-        value={roleType}
-        onChangeText={setRoleType}
-      />
-      <TouchableOpacity
-        onPress={checkTextInput}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>{!isJoin ? 'Create' : 'Join'}</Text>
-      </TouchableOpacity>
-    </View>
+    <VStack marginTop={30} justifyContent="center" alignItems="center" space="sm" reversed={false}>
+      {contacts?.map((contact: Contact, i: number) => (
+        <TouchableOpacity key={i} onPress={() => checkTextInput(contact)}>
+          <Box borderRadius="$md" bg="#016FB9" justifyContent='center' alignItems="center" height={200} width={200}>
+            <Text color="white" fontSize={20}>{contact.contactName}</Text>
+            <Icon name="user" size={80} color="white" />
+          </Box>
+        </TouchableOpacity>
+      ))}
+    </VStack>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  button: {
-    backgroundColor: '#0e71eb',
-    alignItems: 'center',
-    marginTop: 15,
-    marginHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: 'white',
-  },
-});
